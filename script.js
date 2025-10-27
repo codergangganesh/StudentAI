@@ -5,7 +5,7 @@ let imagebtn = document.querySelector("#image")
 let imageinput = document.querySelector("#image input")
 
 // Configuration - Replace with your OpenRouter API key
-const OPENROUTER_API_KEY = "YOUR_OPENROUTER_API_KEY_HERE"
+const OPENROUTER_API_KEY = "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"
 const API_BASE_URL = "https://openrouter.ai/api/v1"
 
 let user = {
@@ -36,11 +36,11 @@ class OpenRouterAI {
                 role: "user",
                 content: imageData ? [
                     { type: "text", text: message },
-                    { 
-                        type: "image_url", 
-                        image_url: { 
-                            url: `data:${imageData.mime_type};base64,${imageData.data}` 
-                        } 
+                    {
+                        type: "image_url",
+                        image_url: {
+                            url: `data:${imageData.mime_type};base64,${imageData.data}`
+                        }
                     }
                 ] : message
             }
