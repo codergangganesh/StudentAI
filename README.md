@@ -1,13 +1,13 @@
 # 🤖 StudentAI - Modern AI Chat Bot (Vanilla JS Version)
 
-A sleek, modern AI-powered chat application built with **pure vanilla JavaScript**, featuring a beautiful UI and powered by OpenRouter's Qwen AI model. No frameworks, no dependencies - just clean, fast code!
+A sleek, modern AI-powered chat application built with **pure vanilla JavaScript**, featuring a beautiful UI and powered by Hugging Face's free AI models. No frameworks, no dependencies - just clean, fast code!
 
 ![StudentAI Demo](https://img.shields.io/badge/Status-Active-brightgreen) ![License](https://img.shields.io/badge/License-MIT-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow)
 
 ## ✨ Features
 
 - 🎨 **Modern UI Design** - Clean, responsive interface with gradient backgrounds
-- 🤖 **AI-Powered Responses** - Uses Qwen 2.5-7B model via OpenRouter API
+- 🤖 **AI-Powered Responses** - Uses Microsoft DialoGPT via Hugging Face API
 - 🖼️ **Image Support** - Upload and analyze images with AI
 - 📱 **Mobile Responsive** - Works perfectly on all devices
 - ⚡ **Fast & Lightweight** - No frameworks, pure vanilla JavaScript
@@ -31,8 +31,8 @@ A sleek, modern AI-powered chat application built with **pure vanilla JavaScript
 ## 🛠️ Technologies Used
 
 - **Frontend**: HTML5, CSS3, JavaScript (ES6+)
-- **AI Model**: Qwen 2.5-7B Instruct
-- **API**: OpenRouter API
+- **AI Model**: Microsoft DialoGPT-medium
+- **API**: Hugging Face Inference API
 - **Styling**: Modern CSS with Flexbox & Grid
 - **Fonts**: Inter (Google Fonts)
 
@@ -41,7 +41,7 @@ A sleek, modern AI-powered chat application built with **pure vanilla JavaScript
 Before you begin, ensure you have:
 
 - A modern web browser (Chrome, Firefox, Safari, Edge)
-- An OpenRouter API key (free tier available)
+- A Hugging Face API key (free tier available)
 - Basic knowledge of HTML/CSS/JavaScript (for customization)
 
 ## 🔧 Installation & Setup
@@ -59,11 +59,11 @@ cd StudentAI
 git checkout vanilla-js-version
 ```
 
-### 2. Get OpenRouter API Key
+### 2. Get Hugging Face API Key
 
-1. Visit [OpenRouter Dashboard](https://openrouter.ai/keys)
+1. Visit [Hugging Face Access Tokens](https://huggingface.co/settings/tokens)
 2. Sign up for a free account
-3. Create a new API key
+3. Create a new access token
 4. Copy your API key
 
 ### 3. Configure API Key
@@ -71,7 +71,7 @@ git checkout vanilla-js-version
 Open `script.js` and replace the API key on line 8:
 
 ```javascript
-const OPENROUTER_API_KEY = "sk-or-v1-your-actual-api-key-here"
+const HUGGINGFACE_API_KEY = "hf_your-actual-api-key-here"
 ```
 
 ### 4. Run the Application
