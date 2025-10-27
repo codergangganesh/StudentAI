@@ -206,9 +206,24 @@ function handlechatResponse(userMessage) {
 
 
 prompt.addEventListener("keydown", (e) => {
-    if (e.key == "Enter") {
+    if (e.key == "Enter" && !e.shiftKey) {
+        e.preventDefault()
         handlechatResponse(prompt.value)
+    }
+})
 
+// Mobile-specific: Handle input focus for better UX
+prompt.addEventListener("focus", () => {
+    // Scroll to input on mobile when focused
+    setTimeout(() => {
+        prompt.scrollIntoView({ behavior: "smooth", block: "center" })
+    }, 300)
+})
+
+// Prevent zoom on input focus (iOS Safari)
+prompt.addEventListener("touchstart", (e) => {
+    if (prompt.style.fontSize !== "16px") {
+        prompt.style.fontSize = "16px"
     }
 })
 submitbtn.addEventListener("click", () => {
