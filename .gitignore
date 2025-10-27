@@ -1,8 +1,10 @@
-# Dependencies
+# Dependencies (not used in vanilla JS project)
 node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+package-lock.json
+package.json
 
 # Environment variables
 .env
@@ -17,6 +19,9 @@ yarn-error.log*
 *.swp
 *.swo
 *~
+.project
+.settings/
+*.sublime-*
 
 # OS generated files
 .DS_Store
@@ -26,6 +31,7 @@ yarn-error.log*
 .Trashes
 ehthumbs.db
 Thumbs.db
+desktop.ini
 
 # Logs
 logs
@@ -40,10 +46,36 @@ pids
 # Coverage directory used by tools like istanbul
 coverage/
 
-# Build outputs
+# Build outputs (not applicable for vanilla JS)
 dist/
 build/
+out/
 
 # Temporary files
 tmp/
 temp/
+*.tmp
+*.temp
+
+# Image files that might be accidentally added
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.svg
+*.webp
+*.ico
+
+# Except for favicon or essential images (uncomment if needed)
+# !favicon.ico
+# !logo.png
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Cache files
+.cache/
+*.cache
