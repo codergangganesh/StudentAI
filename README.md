@@ -1,6 +1,6 @@
-# 🤖 StudentAI - Modern AI Chat Bot
+# 🤖 StudentAI - Modern AI Chat Bot (Vanilla JS Version)
 
-A sleek, modern AI-powered chat application built with vanilla JavaScript, featuring a beautiful UI and powered by OpenRouter's Qwen AI model.
+A sleek, modern AI-powered chat application built with **pure vanilla JavaScript**, featuring a beautiful UI and powered by OpenRouter's Qwen AI model. No frameworks, no dependencies - just clean, fast code!
 
 ![StudentAI Demo](https://img.shields.io/badge/Status-Active-brightgreen) ![License](https://img.shields.io/badge/License-MIT-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow)
 
@@ -16,7 +16,9 @@ A sleek, modern AI-powered chat application built with vanilla JavaScript, featu
 
 ## 🚀 Live Demo
 
-[View Live Demo](https://codergangganesh.github.io/StudentAI/) *(Replace with your actual demo link)*
+[View Live Demo](https://codergangganesh.github.io/StudentAI/aibot.html)
+
+> **Note**: This is the vanilla JavaScript version. The main branch contains a React/TypeScript version.
 
 ## 📸 Screenshots
 
