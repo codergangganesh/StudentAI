@@ -1,4 +1,4 @@
-# 🤖 StudentAI - Modern AI Chat Bot (Vanilla JS Version)
+# 🤖 StudentAI 
 
 A sleek, modern AI-powered chat application built with **pure vanilla JavaScript**, featuring a beautiful UI and powered by Hugging Face's free AI models. No frameworks, no dependencies - just clean, fast code!
 
@@ -14,19 +14,7 @@ A sleek, modern AI-powered chat application built with **pure vanilla JavaScript
 - 🎭 **Smooth Animations** - Beautiful slide-in effects and loading states
 - 🔒 **Secure** - Client-side only, your API key stays private
 
-## 🚀 Live Demo
 
-[View Live Demo](https://codergangganesh.github.io/StudentAI/aibot.html)
-
-> **Note**: This is the vanilla JavaScript version. The main branch contains a React/TypeScript version.
-
-## 📸 Screenshots
-
-### Desktop View
-![Desktop Screenshot](https://via.placeholder.com/800x500/4f46e5/ffffff?text=Desktop+View)
-
-### Mobile View
-![Mobile Screenshot](https://via.placeholder.com/400x600/7c3aed/ffffff?text=Mobile+View)
 
 ## 🛠️ Technologies Used
 
@@ -251,40 +239,3 @@ Contributions are welcome! Here's how you can help:
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👨‍💻 Author
-
-**Ganesh** - [@codergangganesh](https://github.com/codergangganesh)
-
-- GitHub: [codergangganesh](https://github.com/codergangganesh)
-- LinkedIn: [Add your LinkedIn profile]
-- Twitter: [Add your Twitter handle]
-
-## 🙏 Acknowledgments
-
-- [OpenRouter](https://openrouter.ai/) for providing AI model access
-- [Qwen Team](https://github.com/QwenLM/Qwen) for the amazing AI model
-- [Inter Font](https://fonts.google.com/specimen/Inter) for beautiful typography
-- Community contributors and testers
-
-## 📊 Stats
-
-![GitHub stars](https://img.shields.io/github/stars/codergangganesh/StudentAI?style=social)
-![GitHub forks](https://img.shields.io/github/forks/codergangganesh/StudentAI?style=social)
-![GitHub issues](https://img.shields.io/github/issues/codergangganesh/StudentAI)
-
-## 🔮 Future Enhancements
-
-- [ ] Voice input/output support
-- [ ] Chat history persistence
-- [ ] Multiple conversation threads
-- [ ] Dark/Light theme toggle
-- [ ] Export chat conversations
-- [ ] Plugin system for extensions
-- [ ] Multi-language support
-- [ ] Offline mode capabilities
-
----
-
-⭐ **Star this repository if you found it helpful!**
-
-Made with ❤️ by [Ganesh](https://github.com/codergangganesh)
