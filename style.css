@@ -1,0 +1,334 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    height: 100vh;
+    overflow: hidden;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+.chat-header {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    color: white;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.ai-avatar {
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+}
+
+.ai-icon {
+    font-size: 1.5rem;
+}
+
+.header-info h1 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.status {
+    font-size: 0.875rem;
+    opacity: 0.9;
+}
+
+/* Chat Container */
+.chat-container {
+    flex: 1;
+    padding: 1.5rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: linear-gradient(to bottom, #f8fafc, #f1f5f9);
+}
+
+.chat-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+/* Message Boxes */
+.ai-chat-box, .user-chat-box {
+    display: flex;
+    gap: 0.75rem;
+    max-width: 80%;
+    animation: slideIn 0.3s ease-out;
+}
+
+.user-chat-box {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.message-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.ai-chat-box .message-avatar {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+}
+
+.user-chat-box .message-avatar {
+    background: linear-gradient(135deg, #06b6d4, #3b82f6);
+    color: white;
+}
+
+.user-avatar-icon {
+    font-size: 1.2rem;
+}
+
+/* Message Content */
+.ai-chat-area, .user-chat-area {
+    background: white;
+    padding: 1rem 1.25rem;
+    border-radius: 1.25rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    position: relative;
+}
+
+.ai-chat-area {
+    border-bottom-left-radius: 0.5rem;
+    border: 1px solid rgba(79, 70, 229, 0.1);
+}
+
+.user-chat-area {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+    border-bottom-right-radius: 0.5rem;
+}
+
+.message-content {
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.chooseimg {
+    max-width: 200px;
+    border-radius: 0.75rem;
+    margin-top: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Loading Animation */
+.loading-dots {
+    display: inline-flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.loading-dots::after {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #4f46e5;
+    animation: loading 1.4s infinite ease-in-out;
+}
+
+.loading-dots::before {
+    content: '●●●';
+    color: #4f46e5;
+    animation: pulse 1.4s infinite;
+}
+
+/* Input Area */
+.prompt-area {
+    padding: 1.5rem;
+    background: white;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.input-container {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#prompt {
+    flex: 1;
+    padding: 1rem 1.25rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 1.5rem;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s ease;
+    background: #f9fafb;
+}
+
+#prompt:focus {
+    border-color: #4f46e5;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+#prompt::placeholder {
+    color: #9ca3af;
+}
+
+/* Buttons */
+#image, #submit {
+    width: 48px;
+    height: 48px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+#image {
+    background: linear-gradient(135deg, #6b7280, #4b5563);
+    color: white;
+}
+
+#image:hover {
+    background: linear-gradient(135deg, #4b5563, #374151);
+    transform: scale(1.05);
+}
+
+#submit {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+}
+
+#submit:hover {
+    background: linear-gradient(135deg, #4338ca, #6d28d9);
+    transform: scale(1.05);
+}
+
+#submit:active, #image:active {
+    transform: scale(0.95);
+}
+
+/* Animations */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 70%, 100% {
+        opacity: 0.4;
+    }
+    35% {
+        opacity: 1;
+    }
+}
+
+@keyframes loading {
+    0%, 80%, 100% {
+        transform: scale(0);
+        opacity: 0.5;
+    }
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .app-container {
+        height: 100vh;
+        border-radius: 0;
+    }
+    
+    .chat-container {
+        padding: 1rem;
+    }
+    
+    .ai-chat-box, .user-chat-box {
+        max-width: 90%;
+    }
+    
+    .prompt-area {
+        padding: 1rem;
+    }
+    
+    .header-content {
+        gap: 0.75rem;
+    }
+    
+    .ai-avatar {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .header-info h1 {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .input-container {
+        gap: 0.5rem;
+    }
+    
+    #prompt {
+        padding: 0.875rem 1rem;
+        font-size: 0.95rem;
+    }
+    
+    #image, #submit {
+        width: 44px;
+        height: 44px;
+    }
+}
