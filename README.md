@@ -49,8 +49,14 @@ Before you begin, ensure you have:
 ### 1. Clone the Repository
 
 ```bash
+# Clone the vanilla JS version
+git clone -b vanilla-js-version https://github.com/codergangganesh/StudentAI.git
+cd StudentAI
+
+# Or clone and switch to vanilla JS branch
 git clone https://github.com/codergangganesh/StudentAI.git
 cd StudentAI
+git checkout vanilla-js-version
 ```
 
 ### 2. Get OpenRouter API Key
