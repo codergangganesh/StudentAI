@@ -37,14 +37,11 @@ Before you begin, ensure you have:
 ### 1. Clone the Repository
 
 ```bash
-# Clone the vanilla JS version
-git clone -b vanilla-js-version https://github.com/codergangganesh/StudentAI.git
-cd StudentAI
 
-# Or clone and switch to vanilla JS branch
+#  clone repositry
 git clone https://github.com/codergangganesh/StudentAI.git
 cd StudentAI
-git checkout vanilla-js-version
+
 ```
 
 ### 2. Get Hugging Face API Key
@@ -168,27 +165,7 @@ class OpenRouterAI {
 }
 ```
 
-## 🐛 Troubleshooting
 
-### Common Issues
-
-**❌ API Error 401 - Unauthorized**
-- Check if your API key is correct
-- Ensure the key has proper permissions
-
-**❌ API Error 429 - Rate Limited**
-- You've exceeded the free tier limits
-- Wait a few minutes or upgrade your plan
-
-**❌ No Response from AI**
-- Check browser console for errors
-- Verify internet connection
-- Ensure API key is properly set
-
-**❌ Images Not Working**
-- Check if the model supports vision (Qwen models do)
-- Ensure image is in supported format (JPG, PNG, WebP)
-- Check file size limits
 
 ### Debug Mode
 
