@@ -1,0 +1,350 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #171717; /* ChatGPT dark sidebar */
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 10;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.expanded {
+  width: 260px;
+}
+
+.collapsed {
+  width: 0;
+  border-right: none;
+}
+
+.sidebarInner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 260px;
+  padding: 12px 14px;
+  gap: 16px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  padding: 0 4px;
+}
+
+.logoWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ececf1;
+}
+
+.logoIcon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #3f3f46;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.collapseBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  color: #b4b4b4;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.collapseBtn:hover {
+  background-color: #212121;
+  color: #ececf1;
+}
+
+/* Floating Collapse Button when sidebar is collapsed */
+.floatingToggle {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 11;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: #171717;
+  color: #b4b4b4;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  transition: all 0.2s ease;
+}
+
+.floatingToggle:hover {
+  background-color: #212121;
+  color: #ececf1;
+  transform: scale(1.02);
+}
+
+/* New Chat Button */
+.newChatBtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 8px;
+  background-color: transparent;
+  color: #ececf1;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.newChatBtn:hover {
+  background-color: #212121;
+}
+
+.newChatBtnInner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Navigation items */
+.navList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #b4b4b4;
+  transition: background-color 0.2s, color 0.2s;
+  cursor: pointer;
+}
+
+.navItem:hover {
+  background-color: #212121;
+  color: #ececf1;
+}
+
+/* Scroll Area */
+.scrollArea {
+  flex: 1;
+  overflow-y: auto;
+  margin-right: -6px;
+  padding-right: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sectionHeader {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #b4b4b4;
+  padding: 0 12px;
+  margin-bottom: 6px;
+}
+
+.sectionHeaderWithLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.sectionHeaderWithLink:hover {
+  color: #ececf1;
+}
+
+.chatList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.chatItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  color: #b4b4b4;
+  transition: background-color 0.2s, color 0.2s;
+  cursor: pointer;
+  position: relative;
+}
+
+.chatItem:hover {
+  background-color: #212121;
+  color: #ececf1;
+}
+
+.chatItemActive {
+  background-color: #212121;
+  color: #ececf1;
+}
+
+.chatTitleWrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.chatTitle {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.renameInput {
+  width: 100%;
+  font-family: inherit;
+  font-size: inherit;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--accent-color);
+  color: #ececf1;
+  padding: 0;
+}
+
+.chatActions {
+  display: none;
+  align-items: center;
+  gap: 4px;
+}
+
+.chatItem:hover .chatActions {
+  display: flex;
+}
+
+.chatItemActive .chatActions {
+  display: flex;
+}
+
+.actionBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  color: #8e8ea0;
+  transition: all 0.2s ease;
+}
+
+.actionBtn:hover {
+  background-color: #2f2f2f;
+  color: #ececf1;
+}
+
+.pinIcon {
+  color: var(--accent-color);
+}
+
+/* Footer Section */
+.footer {
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.userProfile {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.userProfile:hover {
+  background-color: #212121;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #eab308; /* Yellow default avatar color for Mannam */
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.userNameContainer {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.userName {
+  font-weight: 500;
+  font-size: 0.88rem;
+  color: #ececf1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.userEmail {
+  font-size: 0.72rem;
+  color: #8e8ea0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.settingsTriggerBtn {
+  color: #8e8ea0;
+}
+
+.settingsTriggerBtn:hover {
+  color: #ececf1;
+}

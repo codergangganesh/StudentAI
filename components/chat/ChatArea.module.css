@@ -1,0 +1,154 @@
+.chatArea {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100vh;
+  background-color: #0d0d0d; /* ChatGPT pitch black dark bg */
+  position: relative;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 16px;
+  background-color: #0d0d0d;
+  position: relative;
+  z-index: 5;
+}
+
+.leftControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.mobileMenuBtn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  color: #b4b4b4;
+}
+
+.mobileMenuBtn:hover {
+  background-color: #212121;
+  color: #ececf1;
+}
+
+@media (max-width: 768px) {
+  .mobileMenuBtn {
+    display: flex;
+  }
+}
+
+/* Model Dropdown Selection Trigger */
+.modelSelector {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  color: #ececf1;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: background-color 0.2s;
+  cursor: pointer;
+  position: relative;
+}
+
+.modelSelector:hover {
+  background-color: #212121;
+}
+
+.chevron {
+  color: #8e8ea0;
+}
+
+/* Dropdown Menu List */
+.dropdownMenu {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  background-color: #212121;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 8px;
+  width: 240px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dropdownItem {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: #b4b4b4;
+  text-align: left;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.dropdownItem:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #ececf1;
+}
+
+.dropdownItemActive {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-weight: 500;
+}
+
+.modelHeadline {
+  font-size: 0.88rem;
+}
+
+.modelDesc {
+  font-size: 0.72rem;
+  color: #8e8ea0;
+  margin-top: 2px;
+}
+
+/* Header right controls */
+.rightControls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.headerBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  color: #b4b4b4;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.headerBtn:hover {
+  background-color: #212121;
+  color: #ececf1;
+}
+
+.pinIconActive {
+  color: var(--accent-color);
+  fill: var(--accent-glow);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}

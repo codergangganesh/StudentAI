@@ -1,0 +1,79 @@
+.listContainer {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  background-color: #0d0d0d; /* ChatGPT pitch black dark bg */
+  position: relative;
+}
+
+.scrollSentinel {
+  height: 1px;
+}
+
+.welcomeContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  max-width: 680px;
+  width: 100%;
+  margin: 0 auto;
+  gap: 36px;
+}
+
+.welcomeTitle {
+  font-size: 2.2rem;
+  font-weight: 500;
+  color: #f1f5f9;
+  text-align: center;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+
+/* Prompt input section is loaded in ChatArea bottom, but we define spacer here */
+.quickPromptsList {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
+  max-width: 580px;
+  margin-top: -12px; /* Pull it slightly closer to the input area */
+  padding-left: 20px;
+}
+
+.promptCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background-color: transparent;
+  color: #ececf1;
+  font-size: 0.95rem;
+  font-weight: 400;
+  transition: background-color 0.2s, transform 0.15s;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.promptCard:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.promptIcon {
+  color: #8e8ea0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.indicatorWrapper {
+  padding: 20px;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+}
