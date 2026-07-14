@@ -1,29 +1,30 @@
 .container {
   padding: 16px 24px 24px 24px;
-  background-color: #0d0d0d; /* ChatGPT pitch black dark bg */
+  background-color: var(--bg-primary); /* Adaptive viewport background */
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
+  transition: var(--theme-transition);
 }
 
 .inputWrapper {
-  max-width: 600px; /* Centered narrow width matching welcome screen */
+  max-width: 768px; /* Slightly wider centered input wrapper for desktop */
   width: 100%;
   position: relative;
   display: flex;
   flex-direction: column;
   border-radius: 26px; /* High pill curvature */
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background-color: #212121; /* Dark gray input background */
-  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-secondary); /* Dynamic adaptive input wrapper background */
+  box-shadow: var(--shadow-md);
   transition: all 0.2s ease;
   overflow: hidden;
 }
 
 .inputWrapperFocus {
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.1);
+  border-color: var(--border-focus);
+  box-shadow: var(--shadow-lg), 0 0 0 1px var(--border-focus);
 }
 
 .dragOverlay {
@@ -97,7 +98,7 @@
   line-height: 1.5;
   background: none;
   border: none;
-  color: #ececf1;
+  color: var(--text-primary); /* Adaptive text color */
   outline: none;
 }
 
@@ -112,14 +113,14 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  color: #b4b4b4;
+  color: var(--text-tertiary);
   transition: background-color 0.2s, color 0.2s;
   background-color: transparent;
 }
 
 .plusBtn:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-  color: #ececf1;
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
 }
 
 /* Control buttons inside input */
@@ -139,13 +140,13 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  color: #b4b4b4;
+  color: var(--text-tertiary);
   transition: all 0.15s ease;
 }
 
 .controlBtn:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-  color: #ececf1;
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
 }
 
 /* Voice pill wave button */
@@ -191,17 +192,18 @@
 
 /* Send arrow button */
 .submitBtn {
-  background-color: #ececf1;
-  color: #0d0d0d;
+  background-color: var(--text-primary);
+  color: var(--bg-primary);
 }
 
 .submitBtn:hover {
-  background-color: #fff;
+  opacity: 0.9;
 }
 
 .submitBtnDisabled {
-  background-color: rgba(255, 255, 255, 0.05);
-  color: #555;
+  background-color: var(--bg-hover);
+  color: var(--text-tertiary);
+  opacity: 0.5;
   cursor: not-allowed;
 }
 

@@ -42,7 +42,7 @@ export default function Home() {
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
           <div className="pulsar" />
           <span style={{ fontSize: '0.9rem', fontWeight: 500, letterSpacing: '0.05em' }}>
-            LOADING GROK CHAT...
+            LOADING STUDENTAI...
           </span>
         </div>
         <style>{`

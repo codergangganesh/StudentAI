@@ -3,6 +3,7 @@ import { supabase, GUEST_USER_ID } from '@/lib/supabase';
 import { Chat, Message, Attachment } from '@/types';
 import { useUIStore } from './useUIStore';
 import { useSettingsStore } from './useSettingsStore';
+import { generateUUID } from '@/utils/uuid';
 
 interface ChatState {
   chats: Chat[];
@@ -52,12 +53,26 @@ export const useChatStore = create<ChatState>((set, get) => ({
       const { data, error } = await supabase
         .from('chats')
         .select('*')
-        .eq('user_id', GUEST_USER_ID)
-        .order('is_pinned', { ascending: false })
-        .order('updated_at', { ascending: false });
+        .eq('user_id', GUEST_USER_ID);
 
       if (error) throw error;
-      set({ chats: data || [] });
+
+      const dbChats = data || [];
+      const local = localStorage.getItem('local_chats');
+      const localChats = local ? JSON.parse(local) : [];
+
+      // Merge: keep all dbChats, and append any local-only chats that don't exist in dbChats
+      const dbIds = new Set(dbChats.map((c) => c.id));
+      const localOnlyChats = localChats.filter((c: Chat) => !dbIds.has(c.id));
+
+      const mergedChats = [...dbChats, ...localOnlyChats].sort((a, b) => {
+        if (a.is_pinned && !b.is_pinned) return -1;
+        if (!a.is_pinned && b.is_pinned) return 1;
+        return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
+      });
+
+      set({ chats: mergedChats });
+      localStorage.setItem('local_chats', JSON.stringify(mergedChats));
     } catch (e) {
       console.warn('Supabase fetchChats failed, fallback to local storage:', e);
       const local = localStorage.getItem('local_chats');
@@ -79,7 +94,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
     };
 
     // Optimistic insert
-    const tempId = Math.random().toString(36).substring(2, 9);
+    const tempId = generateUUID();
     const tempChat: Chat = {
       id: tempId,
       user_id: GUEST_USER_ID,
@@ -208,6 +223,17 @@ export const useChatStore = create<ChatState>((set, get) => ({
     if (!id) return;
 
     try {
+      // Check if the chat exists in Supabase
+      const { data: chatCheck, error: chatCheckError } = await supabase
+        .from('chats')
+        .select('id')
+        .eq('id', id)
+        .maybeSingle();
+
+      if (chatCheckError || !chatCheck) {
+        throw new Error('Chat not found in Supabase (possibly offline/local-only)');
+      }
+
       // Fetch messages from Supabase
       const { data, error } = await supabase
         .from('messages')
@@ -256,7 +282,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
     }
 
     // 2. Add user message optimistic
-    const userMsgId = Math.random().toString(36).substring(2, 9);
+    const userMsgId = generateUUID();
     const userMessage: Message = {
       id: userMsgId,
       chat_id: chatId,
@@ -268,7 +294,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
     };
 
     // Add assistant placeholder
-    const assistantMsgId = Math.random().toString(36).substring(2, 9);
+    const assistantMsgId = generateUUID();
     const assistantMessage: Message = {
       id: assistantMsgId,
       chat_id: chatId,
@@ -283,6 +309,63 @@ export const useChatStore = create<ChatState>((set, get) => ({
       localStorage.setItem(`local_messages_${chatId}`, JSON.stringify(nextMsgs));
       return { messages: nextMsgs, isStreaming: true };
     });
+
+    // Sync active chat to Supabase if it is local-only
+    const activeChat = get().chats.find((c) => c.id === chatId);
+    if (activeChat) {
+      try {
+        const { data: dbChat } = await supabase
+          .from('chats')
+          .select('id')
+          .eq('id', chatId)
+          .maybeSingle();
+
+        if (!dbChat) {
+          // Sync chat table row first
+          const { error: syncError } = await supabase
+            .from('chats')
+            .insert({
+              id: activeChat.id,
+              user_id: GUEST_USER_ID,
+              title: activeChat.title,
+              is_pinned: activeChat.is_pinned,
+              is_archived: activeChat.is_archived,
+              category: activeChat.category,
+              created_at: activeChat.created_at,
+              updated_at: activeChat.updated_at
+            });
+
+          if (!syncError) {
+            // Sync all previous local messages in this chat (except the optimistic user/assistant messages)
+            const unsyncedMessages = get().messages.filter(m => m.id !== userMsgId && m.id !== assistantMsgId);
+            for (const msg of unsyncedMessages) {
+              try {
+                await supabase.from('messages').insert({
+                  id: msg.id,
+                  chat_id: chatId,
+                  role: msg.role,
+                  content: msg.content,
+                  metadata: msg.metadata || {},
+                  created_at: msg.created_at
+                });
+
+                if (msg.attachments && msg.attachments.length > 0) {
+                  const attachmentIds = msg.attachments.map(a => a.id);
+                  await supabase
+                    .from('attachments')
+                    .update({ message_id: msg.id })
+                    .in('id', attachmentIds);
+                }
+              } catch (err) {
+                console.warn('Failed to sync previous message:', err);
+              }
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('Failed to check/sync local chat to Supabase:', e);
+      }
+    }
 
     // Save User Message to Supabase
     try {

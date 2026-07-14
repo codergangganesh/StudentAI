@@ -84,25 +84,23 @@ export default function Sidebar() {
     <>
       {/* Sidebar Container */}
       <aside className={`${styles.sidebar} ${sidebarOpen ? styles.expanded : styles.collapsed}`}>
-        {sidebarOpen && (
-          <div className={styles.sidebarInner}>
-            {/* Header: Logo and Toggle */}
-            <div className={styles.header}>
-              <div className={styles.logoWrapper}>
-                <div className={styles.logoIcon}>
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-                    <path d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
-                  </svg>
-                </div>
+        <div className={styles.sidebarInner}>
+          {/* Header: Logo and Toggle */}
+          <div className={styles.header}>
+            <div className={styles.logoWrapper}>
+              <div className={styles.logoIcon}>
+                <img src="/logo.png" alt="StudentAI Logo" className={styles.logoImg} />
               </div>
-              <button 
-                className={styles.collapseBtn} 
-                onClick={toggleSidebar}
-                title="Collapse sidebar"
-              >
-                <ChevronLeft size={16} />
-              </button>
+              <span className={styles.logoText}>StudentAI</span>
             </div>
+            <button 
+              className={styles.collapseBtn} 
+              onClick={toggleSidebar}
+              title={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
+            >
+              {sidebarOpen ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
+            </button>
+          </div>
 
             {/* New Chat Button */}
             <button className={styles.newChatBtn} onClick={handleCreateChat} title="New Chat">
@@ -115,65 +113,7 @@ export default function Sidebar() {
               <SquarePen size={16} style={{ color: '#8e8ea0' }} />
             </button>
 
-            {/* Navigation Lists */}
-            <div className={styles.navList}>
-              {/* Search chats */}
-              {showSearch ? (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '0 12px', height: '38px', backgroundColor: '#212121', borderRadius: '8px' }}>
-                  <Search size={16} style={{ color: '#ececf1' }} />
-                  <input
-                    ref={searchInputRef}
-                    type="text"
-                    placeholder="Search chats..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    onBlur={() => {
-                      if (!searchQuery) setShowSearch(false);
-                    }}
-                    style={{ background: 'none', border: 'none', color: '#fff', fontSize: '0.9rem', width: '100%', outline: 'none' }}
-                  />
-                  {searchQuery && (
-                    <X 
-                      size={14} 
-                      style={{ color: '#8e8ea0', cursor: 'pointer' }} 
-                      onClick={() => {
-                        setSearchQuery('');
-                        setShowSearch(false);
-                      }} 
-                    />
-                  )}
-                </div>
-              ) : (
-                <div className={styles.navItem} onClick={() => setShowSearch(true)}>
-                  <Search size={16} />
-                  <span>Search chats</span>
-                </div>
-              )}
 
-              {/* Library */}
-              <div className={styles.navItem}>
-                <Library size={16} />
-                <span>Library</span>
-              </div>
-
-              {/* Scheduled */}
-              <div className={styles.navItem}>
-                <Clock size={16} />
-                <span>Scheduled</span>
-              </div>
-
-              {/* Plugins */}
-              <div className={styles.navItem}>
-                <Puzzle size={16} />
-                <span>Plugins</span>
-              </div>
-
-              {/* More */}
-              <div className={styles.navItem}>
-                <MoreHorizontal size={16} />
-                <span>More</span>
-              </div>
-            </div>
 
             {/* Scroll Area */}
             <div className={styles.scrollArea}>
@@ -241,17 +181,49 @@ export default function Sidebar() {
                 </div>
               )}
 
-              {/* Projects section */}
-              <div>
-                <div className={`${styles.sectionHeader} ${styles.sectionHeaderWithLink}`}>
-                  <span>Projects</span>
-                  <ChevronRight size={12} />
-                </div>
-              </div>
+
 
               {/* Chats List Section */}
               <div>
-                <div className={styles.sectionHeader}>Chats</div>
+                <div className={`${styles.sectionHeader} ${styles.sectionHeaderWithAction}`}>
+                  <span>Chats</span>
+                  <button
+                    className={styles.sectionSearchBtn}
+                    onClick={() => setShowSearch(!showSearch)}
+                    title="Search chats"
+                  >
+                    <Search size={14} />
+                  </button>
+                </div>
+
+                {/* Inline search bar */}
+                {showSearch && (
+                  <div className={styles.searchContainer}>
+                    <Search size={14} className={styles.searchIcon} />
+                    <input
+                      ref={searchInputRef}
+                      type="text"
+                      className={styles.searchBarInput}
+                      placeholder="Search chats..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onBlur={() => {
+                        if (!searchQuery) setTimeout(() => setShowSearch(false), 150);
+                      }}
+                    />
+                    {searchQuery && (
+                      <X
+                        size={14}
+                        style={{ cursor: 'pointer' }}
+                        className={styles.searchIcon}
+                        onClick={() => {
+                          setSearchQuery('');
+                          setShowSearch(false);
+                        }}
+                      />
+                    )}
+                  </div>
+                )}
                 <div className={styles.chatList}>
                   {regularChats.map((chat) => (
                     <div
@@ -260,6 +232,7 @@ export default function Sidebar() {
                       onClick={() => selectChat(chat.id)}
                     >
                       <div className={styles.chatTitleWrapper}>
+                        <MessageSquare size={15} style={{ flexShrink: 0 }} />
                         {editingChatId === chat.id ? (
                           <input
                             ref={editInputRef}
@@ -346,19 +319,7 @@ export default function Sidebar() {
               </div>
             </div>
           </div>
-        )}
       </aside>
-
-      {/* Floating Toggle Button (visible when sidebar is closed) */}
-      {!sidebarOpen && (
-        <button
-          className={styles.floatingToggle}
-          onClick={toggleSidebar}
-          title="Expand sidebar"
-        >
-          <ChevronRight size={18} />
-        </button>
-      )}
     </>
   );
 }

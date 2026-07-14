@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Mic, ArrowUp, Square, Loader2, X, Plus } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useChatStore } from '@/store/useChatStore';
 import { useUIStore } from '@/store/useUIStore';
 import useUpload from '@/hooks/useUpload';
@@ -114,7 +115,9 @@ export default function ChatInput() {
         )}
 
         {/* Plus Button (Left) */}
-        <button 
+        <motion.button 
+          whileHover={{ scale: 1.15 }}
+          whileTap={{ scale: 0.85 }}
           className={styles.plusBtn}
           onClick={() => fileInputRef.current?.click()}
           title="Attach files"
@@ -125,7 +128,7 @@ export default function ChatInput() {
           ) : (
             <Plus size={18} />
           )}
-        </button>
+        </motion.button>
 
         {/* Hidden File Input */}
         <input 
@@ -172,34 +175,42 @@ export default function ChatInput() {
         <div className={styles.controls}>
           {isStreaming ? (
             // Stop button
-            <button 
+            <motion.button 
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
               className={`${styles.controlBtn} ${styles.submitBtn}`} 
               onClick={stopGeneration}
               title="Stop generating"
             >
               <Square size={14} fill="currentColor" />
-            </button>
+            </motion.button>
           ) : hasContent ? (
             // Send button if user types text or attaches image
-            <button 
+            <motion.button 
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
               className={`${styles.controlBtn} ${styles.submitBtn}`}
               onClick={handleSend}
               title="Send message"
             >
               <ArrowUp size={16} strokeWidth={2.5} />
-            </button>
+            </motion.button>
           ) : (
             // Mic + Voice Wave buttons if input is empty
             <>
-              <button 
+              <motion.button 
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
                 className={styles.controlBtn} 
                 onClick={() => setVoiceModeActive(true)}
                 title="Use voice"
               >
                 <Mic size={18} />
-              </button>
+              </motion.button>
               
-              <button 
+              <motion.button 
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
                 className={styles.voicePillBtn}
                 onClick={() => setVoiceModeActive(true)}
                 title="Voice mode"
@@ -209,7 +220,7 @@ export default function ChatInput() {
                   <div className={styles.voicePillBar} style={{ animationDelay: '150ms' }} />
                   <div className={styles.voicePillBar} style={{ animationDelay: '300ms' }} />
                 </div>
-              </button>
+              </motion.button>
             </>
           )}
         </div>
@@ -224,7 +235,7 @@ export default function ChatInput() {
       </div>
       
       <span className={styles.footerText}>
-        Grok can make mistakes. Verify important info.
+        Groq can make mistakes. Verify important info.
       </span>
     </div>
   );

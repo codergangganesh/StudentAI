@@ -26,7 +26,7 @@ export default function SettingsModal() {
   const handleReset = () => {
     if (confirm('Are you sure you want to reset all settings to default?')) {
       setTheme('system');
-      setModel('grok-2-1212');
+      setModel('llama-3.3-70b-versatile');
       setTemperature(0.7);
       setFontSize('md');
       setDevMode(false);
@@ -95,8 +95,9 @@ export default function SettingsModal() {
               value={model}
               onChange={(e) => setModel(e.target.value)}
             >
-              <option value="grok-2-1212">Grok 2 (Vision & Text)</option>
-              <option value="grok-beta">Grok Beta (Fast Text)</option>
+              <option value="llama-3.3-70b-versatile">Llama 3.3 70B (Versatile)</option>
+              <option value="llama-3.1-8b-instant">Llama 3.1 8B (Fast)</option>
+              <option value="llama-3.2-11b-vision-preview">Llama 3.2 11B (Vision)</option>
             </select>
           </div>
 

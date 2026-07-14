@@ -2,26 +2,48 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export const runtime = 'edge';
 
-const GROK_API_URL = 'https://api.x.ai/v1/chat/completions';
+const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
 export async function POST(req: NextRequest) {
   try {
     const { messages, model, temperature } = await req.json();
 
-    const apiKey = process.env.GROK_API_KEY;
+    // Support both GROQ_API_KEY and GROK_API_KEY environments defensively
+    let apiKey = process.env.GROQ_API_KEY || process.env.GROK_API_KEY;
+    if (apiKey) {
+      apiKey = apiKey.trim().replace(/^['"]|['"]$/g, '');
+    }
 
-    // Fallback Mock Stream if API Key is not set (Great for demoing without setup)
-    if (!apiKey || apiKey === 'your-grok-api-key-here') {
-      console.warn('GROK_API_KEY environment variable is not configured. Streaming mock response.');
+    // Fallback Mock Stream if API Key is not set or is still the default placeholder
+    if (!apiKey || apiKey === 'your-groq-api-key-here' || apiKey === 'your-grok-api-key-here' || apiKey === '') {
+      console.warn('Groq API Key environment variable is not configured. Streaming mock response.');
       return mockStreamResponse(messages);
     }
 
+    // Check if the conversation contains any image attachments
+    const hasImages = messages.some((m: any) => {
+      if (Array.isArray(m.content)) {
+        return m.content.some((part: any) => part.type === 'image_url');
+      }
+      return false;
+    });
+
+    // Determine the Groq model to query
+    // If text contains images, automatically route to the Llama-3.2 Vision model
+    let selectedModel = model || 'llama-3.3-70b-versatile';
+    if (hasImages) {
+      selectedModel = 'llama-3.2-11b-vision-preview';
+    } else if (selectedModel === 'grok-2' || selectedModel === 'grok-beta') {
+      // Graceful map if local state still holds previous Grok settings
+      selectedModel = selectedModel === 'grok-beta' ? 'llama-3.1-8b-instant' : 'llama-3.3-70b-versatile';
+    }
+
     const payload = {
-      model: model || 'grok-2-1212',
+      model: selectedModel,
       messages: [
         {
           role: 'system',
-          content: 'You are Grok, an advanced AI chatbot designed by xAI. You are helpful, intelligent, slightly witty, and highly knowledgeable. Respond in markdown when appropriate.',
+          content: 'You are Groq, an advanced AI chatbot powered by ultra-fast Llama models. You are helpful, intelligent, slightly witty, and highly knowledgeable. Respond in markdown when appropriate.',
         },
         ...messages,
       ],
@@ -29,7 +51,9 @@ export async function POST(req: NextRequest) {
       stream: true,
     };
 
-    const response = await fetch(GROK_API_URL, {
+    console.log('Sending completions payload to Groq API:', JSON.stringify(payload));
+
+    const response = await fetch(GROQ_API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -40,15 +64,23 @@ export async function POST(req: NextRequest) {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('Grok API returned an error:', errorText);
+      console.error('Groq API returned an error:', errorText);
       
-      let errorMessage = `Grok API error: ${response.statusText} (${response.status})`;
+      let errorMessage = `Groq API error: ${response.statusText} (${response.status})`;
       try {
         const errorJson = JSON.parse(errorText);
         if (errorJson?.error?.message) {
-          errorMessage = `Grok API: ${errorJson.error.message}`;
+          errorMessage = `Groq API: ${errorJson.error.message}`;
+        } else if (errorJson?.message) {
+          errorMessage = `Groq API: ${errorJson.message}`;
+        } else if (errorJson?.error) {
+          errorMessage = `Groq API: ${typeof errorJson.error === 'string' ? errorJson.error : JSON.stringify(errorJson.error)}`;
         }
-      } catch (_) {}
+      } catch (_) {
+        if (errorText && errorText.length < 150) {
+          errorMessage = `Groq API: ${errorText}`;
+        }
+      }
 
       return NextResponse.json(
         { error: errorMessage },
@@ -140,9 +172,9 @@ export async function POST(req: NextRequest) {
 function mockStreamResponse(messages: any[]) {
   const lastUserMsg = messages[messages.length - 1]?.content || '';
   
-  const text = `**Grok Demo Mode** 🚀
+  const text = `**Groq Demo Mode** 🚀
 
-It looks like your **GROK_API_KEY** is not configured in your \`.env.local\` file yet. No problem! I've started this simulated response stream to show you how fast, smooth, and beautiful the interface is.
+It looks like your **GROQ_API_KEY** is not configured in your \`.env.local\` file yet. No problem! I've started this simulated response stream to show you how fast, smooth, and beautiful the interface is.
 
 Here's what you wrote:
 > "${lastUserMsg}"
@@ -153,7 +185,7 @@ Here's what you wrote:
 3. **Voice Mode**: Supports local text-to-speech and speech-to-text.
 4. **Markdown & Code**: Highlighted syntax and copy options.
 
-Configure your API keys in your environment variables to link the live xAI Grok models! Let me know if there's anything else I can demonstrate for you.`;
+Configure your API keys in your environment variables to link the live Groq Llama models! Let me know if there's anything else I can demonstrate for you.`;
 
   const responseStream = new ReadableStream({
     async start(controller) {

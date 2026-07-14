@@ -1,106 +1,196 @@
+/* Modern Chat Interface CSS Styles */
+
 .messageRow {
   display: flex;
-  padding: 24px 20px;
-  gap: 16px;
+  justify-content: center;
+  padding: 12px 24px;
   width: 100%;
-  transition: background-color 0.2s ease;
+  box-sizing: border-box;
 }
 
 .userRow {
-  background-color: transparent;
+  /* Aligned via inner wrapper */
 }
 
 .assistantRow {
-  background-color: var(--bg-tertiary);
-  border-top: 1px solid var(--border-color);
-  border-bottom: 1px solid var(--border-color);
+  background-color: transparent; /* Clean transparent response bg */
 }
 
 .messageRowInner {
   display: flex;
   max-width: 800px;
   width: 100%;
-  margin: 0 auto;
   gap: 16px;
 }
 
+/* User row has specific right alignment, so we restrict width and justify end */
+.userRow .messageRowInner {
+  max-width: 800px;
+  justify-content: flex-end;
+  gap: 0; /* No avatar needed on user side for clean pill look */
+}
+
+.assistantRow .messageRowInner {
+  justify-content: flex-start;
+}
+
+/* Avatar styling */
 .avatar {
-  width: 36px;
-  height: 36px;
+  display: none;
+}
+
+.assistantAvatar {
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
-  font-size: 0.85rem;
-  box-shadow: var(--shadow-sm);
+  background: linear-gradient(135deg, #4f46e5, #06b6d4, #ec4899);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.2);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: default;
 }
 
-.userAvatar {
-  background-color: var(--accent-color);
-  color: var(--text-inverse);
+.assistantAvatar:hover {
+  transform: scale(1.08) rotate(5deg);
+  box-shadow: 0 0 14px rgba(99, 102, 241, 0.45);
 }
 
-.assistantAvatar {
-  background-color: #1e293b;
-  color: #818cf8;
-  border: 1px solid rgba(129, 140, 248, 0.2);
+.sparkleIcon {
+  width: 15px;
+  height: 15px;
+  animation: shine 2s infinite linear;
+}
+
+@keyframes shine {
+  0% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 4px #fff); }
+  100% { transform: scale(1); opacity: 0.9; }
 }
 
 .contentWrapper {
   display: flex;
   flex-direction: column;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.userRow .contentWrapper {
+  max-width: 70%;
+  align-items: flex-end;
+}
+
+.assistantRow .contentWrapper {
+  flex: 1;
+}
+
+/* User Message bubble card */
+.userBubble {
+  background-color: var(--bg-tertiary); /* Modern adaptive bubble */
+  border: 1px solid var(--border-color);
+  border-radius: 20px; /* Symmetrical rounded pill */
+  padding: 12px 18px;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  box-shadow: var(--shadow-sm);
+  word-break: break-word;
+  width: fit-content;
+  max-width: 100%;
+  text-align: left;
+}
+
+/* Assistant Message body */
+.assistantContent {
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: var(--text-primary);
   flex: 1;
   min-width: 0;
-  gap: 8px;
 }
 
 .metaHeader {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  font-size: 0.75rem;
-  color: var(--text-tertiary);
+  gap: 8px;
+  font-size: 0.72rem;
+  color: #8e8ea0;
+  margin-bottom: 6px;
 }
 
 .senderName {
   font-weight: 600;
-  color: var(--text-primary);
+  color: #ececf1;
 }
 
 .modelTag {
-  font-size: 0.7rem;
-  background-color: var(--bg-hover);
-  color: var(--text-secondary);
-  padding: 2px 6px;
+  font-size: 0.68rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #8e8ea0;
+  padding: 1px 5px;
   border-radius: 4px;
   font-weight: 500;
   text-transform: uppercase;
 }
 
 .body {
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: var(--text-primary);
+  font-size: inherit;
+  line-height: inherit;
 }
 
 .body p {
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .body p:last-child {
   margin-bottom: 0;
 }
 
+.body h1, .body h2, .body h3, .body h4, .body h5, .body h6 {
+  color: var(--text-primary);
+  font-weight: 600;
+  margin-top: 24px;
+  margin-bottom: 10px;
+  line-height: 1.35;
+}
+
+.body h1 { font-size: 1.55rem; }
+.body h2 { font-size: 1.35rem; }
+.body h3 { font-size: 1.2rem; }
+.body h4 { font-size: 1.1rem; }
+
+.body h1:first-child, .body h2:first-child, .body h3:first-child, .body h4:first-child {
+  margin-top: 0;
+}
+
 /* Markdown elements styling */
-.body ul, .body ol {
-  margin: 8px 0 16px 20px;
+.body ul {
+  list-style-type: disc;
+  margin: 10px 0 14px 24px;
+}
+
+.body ul ul {
+  list-style-type: circle;
+  margin: 6px 0 6px 20px;
+}
+
+.body ol {
+  list-style-type: decimal;
+  margin: 10px 0 14px 24px;
 }
 
 .body li {
-  margin-bottom: 4px;
+  margin-bottom: 6px;
+  line-height: 1.6;
+  padding-left: 4px;
+}
+
+.body li::marker {
+  color: var(--accent-color);
+  font-weight: bold;
 }
 
 .body table {
@@ -111,32 +201,44 @@
 }
 
 .body th, .body td {
-  border: 1px solid var(--border-color);
-  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 10px 14px;
   text-align: left;
 }
 
 .body th {
-  background-color: var(--bg-hover);
+  background-color: rgba(255, 255, 255, 0.03);
   font-weight: 600;
 }
 
 .body blockquote {
-  border-left: 4px solid var(--accent-color);
+  border-left: 3px solid var(--accent-color);
   padding: 8px 16px;
   margin: 16px 0;
   color: var(--text-secondary);
-  background-color: var(--bg-primary);
+  background-color: var(--bg-hover);
   border-radius: 0 8px 8px 0;
+  font-style: italic;
 }
 
-.body a {
-  color: var(--accent-color);
-  text-decoration: underline;
+.markdownLink {
+  color: #ececf1;
+  text-decoration: underline dotted;
+  text-underline-offset: 4px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.15s ease;
 }
 
-.body a:hover {
-  color: var(--accent-hover);
+.markdownLink:hover {
+  color: #fff;
+}
+
+.inlineLinkIcon {
+  color: #8e8ea0;
+  flex-shrink: 0;
 }
 
 /* Attachments preview inside message */
@@ -144,17 +246,17 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 8px;
+  margin-top: 10px;
 }
 
 .attachmentItem {
   position: relative;
   border-radius: 8px;
   overflow: hidden;
-  border: 1px solid var(--border-color);
-  width: 150px;
-  height: 100px;
-  background-color: var(--bg-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  width: 160px;
+  height: 110px;
+  background-color: #171717;
 }
 
 .attachmentImg {
@@ -168,7 +270,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 12px;
+  margin-top: 10px;
   opacity: 0;
   transition: opacity 0.2s ease;
 }
@@ -180,24 +282,24 @@
 .actionsGroup {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .reactions {
   display: flex;
   gap: 4px;
-  background-color: var(--bg-primary);
-  padding: 3px 6px;
+  background-color: #212121;
+  padding: 4px 8px;
   border-radius: 20px;
-  border: 1px solid var(--border-color);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .reactBtn {
-  font-size: 1rem;
+  font-size: 0.95rem;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0 4px;
+  padding: 0 2px;
   transition: transform 0.15s ease;
 }
 
@@ -206,8 +308,7 @@
 }
 
 .selectedReaction {
-  font-weight: bold;
-  background-color: var(--bg-hover);
+  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 50%;
 }
 
@@ -215,11 +316,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   border-radius: 6px;
   color: var(--text-tertiary);
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
 }
 
 .actionBtn:hover {
@@ -228,52 +329,54 @@
 }
 
 /* Code block styles */
-.codeHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 16px;
-  background-color: #1e293b;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-  font-size: 0.75rem;
-  font-family: var(--font-mono);
-  color: #94a3b8;
-  border-bottom: 1px solid #334155;
-}
-
-.codeButtons {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.codeBtn {
-  background: none;
-  border: none;
-  color: #94a3b8;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  transition: color 0.2s ease;
-}
-
-.codeBtn:hover {
-  color: #f8fafc;
-}
-
 .codeBlockWrapper {
   margin: 16px 0;
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
   box-shadow: var(--shadow-md);
   border: 1px solid var(--border-color);
 }
 
+.codeHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background-color: #18181b; /* Sleek zinc dark header */
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: #a1a1aa;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.codeButtons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.codeBtn {
+  background: none;
+  border: none;
+  color: #a1a1aa;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  transition: color 0.15s ease;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.codeBtn:hover {
+  color: #f4f4f5;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
 .codeContainer {
   margin: 0 !important;
-  border-radius: 0 0 8px 8px !important;
+  border-radius: 0 0 12px 12px !important;
   font-size: 0.85rem !important;
 }
 
@@ -281,7 +384,7 @@
 .editContainer {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   width: 100%;
 }
 
@@ -289,10 +392,11 @@
   width: 100%;
   min-height: 80px;
   border-radius: 8px;
-  border: 1px solid var(--accent-color);
-  background-color: var(--bg-secondary);
-  padding: 10px;
+  border: 1px solid #3b82f6;
+  background-color: #171717;
+  padding: 12px;
   font-size: 0.95rem;
+  color: #ececf1;
   line-height: 1.5;
   resize: vertical;
 }
@@ -304,28 +408,71 @@
 }
 
 .editSubmitBtn {
-  background-color: var(--accent-color);
-  color: var(--text-inverse);
+  background-color: #3b82f6;
+  color: #fff;
   padding: 6px 12px;
   border-radius: 6px;
   font-size: 0.85rem;
   font-weight: 500;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.15s ease;
 }
 
 .editSubmitBtn:hover {
-  background-color: var(--accent-hover);
+  background-color: #2563eb;
 }
 
 .editCancelBtn {
-  border: 1px solid var(--border-color);
-  background-color: var(--bg-tertiary);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: #212121;
   padding: 6px 12px;
   border-radius: 6px;
   font-size: 0.85rem;
-  transition: background-color 0.2s ease;
+  color: #b4b4b4;
+  transition: background-color 0.15s ease;
 }
 
 .editCancelBtn:hover {
+  background-color: #2a2a2a;
+  color: #ececf1;
+}
+
+/* User Message actions underneath bubble on the right */
+.userActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+  padding-right: 4px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.messageRow:hover .userActions {
+  opacity: 1;
+}
+
+.userActionBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  color: var(--text-tertiary);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--shadow-sm);
+}
+
+.userActionBtn:hover {
   background-color: var(--bg-hover);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+  border-color: var(--border-focus);
+}
+
+.userActionBtn:active {
+  transform: translateY(0);
 }

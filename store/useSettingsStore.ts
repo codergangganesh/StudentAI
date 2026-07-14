@@ -25,7 +25,7 @@ interface SettingsState {
 
 export const useSettingsStore = create<SettingsState>((set, get) => ({
   theme: 'system',
-  model: 'grok-2-1212',
+  model: 'llama-3.3-70b-versatile',
   temperature: 0.7,
   fontSize: 'md',
   speechSpeed: 1.0,
@@ -73,7 +73,7 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
   loadSettings: async () => {
     // 1. Load from localstorage for immediate render
     const localTheme = localStorage.getItem('theme') as AppTheme || 'system';
-    const localModel = localStorage.getItem('model') || 'grok-2-1212';
+    const localModel = localStorage.getItem('model') || 'llama-3.3-70b-versatile';
     const localTemp = parseFloat(localStorage.getItem('temperature') || '0.7');
     const localFontSize = localStorage.getItem('fontSize') as FontSize || 'md';
     const localSpeechSpeed = parseFloat(localStorage.getItem('speechSpeed') || '1.0');

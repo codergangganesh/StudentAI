@@ -6,6 +6,7 @@ import { useChatStore } from '@/store/useChatStore';
 import MessageItem from './MessageItem';
 import TypingIndicator from './TypingIndicator';
 import styles from './MessageList.module.css';
+import msgStyles from './MessageItem.module.css';
 
 export default function MessageList() {
   const { messages, isStreaming, sendMessage } = useChatStore();
@@ -44,6 +45,9 @@ export default function MessageList() {
   if (messages.length === 0) {
     return (
       <div className={styles.welcomeContainer}>
+        <div className={styles.welcomeLogoWrapper}>
+          <img src="/logo.png" alt="StudentAI Logo" className={styles.welcomeLogo} />
+        </div>
         <div>
           <h1 className={styles.welcomeTitle}>Ready when you are.</h1>
         </div>
@@ -74,9 +78,9 @@ export default function MessageList() {
       {/* Typing Indicator */}
       {isStreaming && messages[messages.length - 1]?.content === '' && (
         <div className={styles.indicatorWrapper}>
-          <div style={{ display: 'flex', gap: '16px', maxWidth: '800px', margin: '0 auto' }}>
-            <div style={{ width: '36px', height: '36px', borderRadius: '50%', backgroundColor: '#1e293b', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#818cf8', border: '1px solid rgba(129, 140, 248, 0.2)' }}>
-              <Sparkles size={16} />
+          <div className={msgStyles.messageRowInner}>
+            <div className={msgStyles.assistantAvatar} title="StudentAI">
+              <Sparkles size={16} className={msgStyles.sparkleIcon} />
             </div>
             <TypingIndicator />
           </div>

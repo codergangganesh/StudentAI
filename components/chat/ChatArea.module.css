@@ -3,9 +3,10 @@
   flex-direction: column;
   flex: 1;
   height: 100vh;
-  background-color: #0d0d0d; /* ChatGPT pitch black dark bg */
+  background-color: var(--bg-primary); /* Adaptive background */
   position: relative;
   overflow: hidden;
+  transition: var(--theme-transition);
 }
 
 .header {
@@ -14,9 +15,13 @@
   justify-content: space-between;
   height: 56px;
   padding: 0 16px;
-  background-color: #0d0d0d;
+  background-color: var(--glass-bg); /* Glassmorphism header */
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-bottom: 1px solid var(--border-color);
   position: relative;
-  z-index: 5;
+  z-index: 15;
+  transition: var(--theme-transition);
 }
 
 .leftControls {
@@ -33,12 +38,12 @@
   width: 36px;
   height: 36px;
   border-radius: 8px;
-  color: #b4b4b4;
+  color: var(--text-secondary);
 }
 
 .mobileMenuBtn:hover {
-  background-color: #212121;
-  color: #ececf1;
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
 }
 
 @media (max-width: 768px) {
@@ -54,7 +59,7 @@
   gap: 6px;
   padding: 6px 12px;
   border-radius: 8px;
-  color: #ececf1;
+  color: var(--text-primary);
   font-weight: 500;
   font-size: 0.95rem;
   transition: background-color 0.2s;
@@ -63,11 +68,11 @@
 }
 
 .modelSelector:hover {
-  background-color: #212121;
+  background-color: var(--bg-hover);
 }
 
 .chevron {
-  color: #8e8ea0;
+  color: var(--text-tertiary);
 }
 
 /* Dropdown Menu List */
@@ -75,12 +80,12 @@
   position: absolute;
   top: 40px;
   left: 0;
-  background-color: #212121;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 8px;
   width: 240px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  box-shadow: var(--shadow-lg);
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -91,20 +96,20 @@
   flex-direction: column;
   padding: 8px 12px;
   border-radius: 8px;
-  color: #b4b4b4;
+  color: var(--text-secondary);
   text-align: left;
   transition: background-color 0.15s, color 0.15s;
 }
 
 .dropdownItem:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-  color: #ececf1;
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
 }
 
 .dropdownItemActive {
-  background-color: rgba(255, 255, 255, 0.08);
-  color: #fff;
-  font-weight: 500;
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+  font-weight: 600;
 }
 
 .modelHeadline {
@@ -113,7 +118,7 @@
 
 .modelDesc {
   font-size: 0.72rem;
-  color: #8e8ea0;
+  color: var(--text-tertiary);
   margin-top: 2px;
 }
 
@@ -131,14 +136,14 @@
   width: 36px;
   height: 36px;
   border-radius: 8px;
-  color: #b4b4b4;
+  color: var(--text-secondary);
   transition: all 0.2s ease;
   border: 1px solid transparent;
 }
 
 .headerBtn:hover {
-  background-color: #212121;
-  color: #ececf1;
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
 }
 
 .pinIconActive {

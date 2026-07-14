@@ -52,11 +52,6 @@ export default function Waveform() {
 
       phase += 0.05;
 
-      // Colors
-      const activeColor = isSpeaking 
-        ? 'rgba(129, 140, 248, ' // Indigo for Grok speaking
-        : 'rgba(99, 102, 241, ';  // Purple for User listening
-
       // Draw multiple overlapping sine waves for rich fluid effect
       const drawSineWave = (
         wavePhase: number, 
@@ -66,13 +61,26 @@ export default function Waveform() {
         lineWidth: number
       ) => {
         ctx.beginPath();
-        ctx.strokeStyle = activeColor + opacity + ')';
+        
+        // Dynamic horizontal color gradients
+        const grad = ctx.createLinearGradient(0, 0, width, 0);
+        if (isSpeaking) {
+          grad.addColorStop(0, `rgba(59, 130, 246, ${opacity})`); // Blue
+          grad.addColorStop(0.5, `rgba(139, 92, 246, ${opacity})`); // Violet
+          grad.addColorStop(1, `rgba(236, 72, 153, ${opacity})`); // Pink
+        } else {
+          grad.addColorStop(0, `rgba(99, 102, 241, ${opacity})`); // Indigo
+          grad.addColorStop(0.5, `rgba(59, 130, 246, ${opacity})`); // Blue
+          grad.addColorStop(1, `rgba(16, 185, 129, ${opacity})`); // Emerald
+        }
+
+        ctx.strokeStyle = grad;
         ctx.lineWidth = lineWidth;
         ctx.lineCap = 'round';
 
-        // Add glow shadow
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = activeColor + '0.3)';
+        // Add glowing neon shadows
+        ctx.shadowBlur = 16;
+        ctx.shadowColor = isSpeaking ? 'rgba(139, 92, 246, 0.4)' : 'rgba(59, 130, 246, 0.4)';
 
         for (let x = 0; x < width; x++) {
           // Attenuation envelope at edges so wave stays within limits
@@ -89,10 +97,10 @@ export default function Waveform() {
         ctx.stroke();
       };
 
-      // Draw 3 layers of waves
-      drawSineWave(phase, targetAmplitude, 0.012, 0.8, 3.5);
-      drawSineWave(phase * -1.2 + 1, targetAmplitude * 0.7, 0.018, 0.45, 2.5);
-      drawSineWave(phase * 0.8 + 2, targetAmplitude * 0.4, 0.008, 0.25, 1.5);
+      // Draw 3 layers of waves with varying phases
+      drawSineWave(phase, targetAmplitude, 0.012, 0.9, 3.5);
+      drawSineWave(phase * -1.2 + 1, targetAmplitude * 0.7, 0.018, 0.55, 2.5);
+      drawSineWave(phase * 0.8 + 2, targetAmplitude * 0.45, 0.008, 0.3, 1.5);
 
       ctx.shadowBlur = 0; // reset shadow
 

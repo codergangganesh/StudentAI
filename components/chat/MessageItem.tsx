@@ -8,7 +8,8 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { 
   Copy, Check, Download, RotateCcw, Edit2, Trash2, 
-  Volume2, VolumeX, Sparkles, Smile, MessageSquare, AlertCircle
+  Volume2, VolumeX, Sparkles, Smile, MessageSquare, AlertCircle,
+  Link as LinkIcon
 } from 'lucide-react';
 import { Message, Attachment } from '@/types';
 import { useChatStore } from '@/store/useChatStore';
@@ -16,6 +17,7 @@ import { useUIStore } from '@/store/useUIStore';
 import useSpeech from '@/hooks/useSpeech';
 import styles from './MessageItem.module.css';
 import confetti from 'canvas-confetti';
+import { motion } from 'framer-motion';
 
 interface MessageItemProps {
   message: Message;
@@ -103,33 +105,45 @@ export default function MessageItem({ message }: MessageItemProps) {
           {children}
         </code>
       );
+    },
+    a({ href, children, ...props }: any) {
+      const textContent = String(children);
+      const isExternal = href?.startsWith('http') || href?.startsWith('//') || textContent.toLowerCase().includes('sonyliv');
+      const showIcon = isExternal && (textContent.toLowerCase().includes('sonyliv') || textContent.toLowerCase().includes('register'));
+      return (
+        <a 
+          href={href} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className={styles.markdownLink} 
+          {...props}
+        >
+          {children}
+          {showIcon && (
+            <LinkIcon size={12} className={styles.inlineLinkIcon} />
+          )}
+        </a>
+      );
     }
   };
 
   return (
-    <div className={`${styles.messageRow} ${isUser ? styles.userRow : styles.assistantRow}`}>
+    <motion.div 
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+      className={`${styles.messageRow} ${isUser ? styles.userRow : styles.assistantRow}`}
+    >
       <div className={styles.messageRowInner}>
-        {/* Avatar */}
-        <div className={`${styles.avatar} ${isUser ? styles.userAvatar : styles.assistantAvatar}`}>
-          {isUser ? 'U' : <Sparkles size={16} />}
-        </div>
+        {/* Assistant Avatar */}
+        {!isUser && (
+          <div className={styles.assistantAvatar} title="StudentAI">
+            <Sparkles size={16} className={styles.sparkleIcon} />
+          </div>
+        )}
 
         {/* Content Area */}
         <div className={styles.contentWrapper}>
-          {/* Metadata Header */}
-          <div className={styles.metaHeader}>
-            <span className={styles.senderName}>{isUser ? 'You' : 'Grok AI'}</span>
-            {!isUser && message.metadata && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                {message.metadata.model && (
-                  <span className={styles.modelTag}>{message.metadata.model}</span>
-                )}
-                {message.metadata.thinking_time !== undefined && (
-                  <span>thought for {message.metadata.thinking_time}s</span>
-                )}
-              </div>
-            )}
-          </div>
 
           {/* Body content */}
           {isEditing ? (
@@ -155,21 +169,23 @@ export default function MessageItem({ message }: MessageItemProps) {
               </div>
             </div>
           ) : (
-            <div className={styles.body}>
-              {message.metadata?.error ? (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#ef4444' }}>
-                  <AlertCircle size={16} />
-                  <span>{message.content}</span>
-                </div>
-              ) : (
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  rehypePlugins={[rehypeRaw]}
-                  components={customMarkdownComponents}
-                >
-                  {message.content}
-                </ReactMarkdown>
-              )}
+            <div className={isUser ? styles.userBubble : styles.assistantContent}>
+              <div className={styles.body}>
+                {message.metadata?.error ? (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#ef4444' }}>
+                    <AlertCircle size={16} />
+                    <span>{message.content}</span>
+                  </div>
+                ) : (
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    rehypePlugins={[rehypeRaw]}
+                    components={customMarkdownComponents}
+                  >
+                    {message.content}
+                  </ReactMarkdown>
+                )}
+              </div>
 
               {/* Attachments preview inside messages */}
               {message.attachments && message.attachments.length > 0 && (
@@ -191,8 +207,28 @@ export default function MessageItem({ message }: MessageItemProps) {
             </div>
           )}
 
+          {/* User Actions under bubble */}
+          {isUser && !isEditing && (
+            <div className={styles.userActions}>
+              <button 
+                className={styles.userActionBtn} 
+                onClick={handleCopyText}
+                title="Copy message"
+              >
+                {copied ? <Check size={14} /> : <Copy size={14} />}
+              </button>
+              <button 
+                className={styles.userActionBtn} 
+                onClick={() => setIsEditing(true)}
+                title="Edit message"
+              >
+                <Edit2 size={14} />
+              </button>
+            </div>
+          )}
+
           {/* Reactions and buttons footer */}
-          {!isEditing && (
+          {!isUser && !isEditing && (
             <div className={styles.actionsFooter}>
               <div className={styles.actionsGroup}>
                 {/* Active reaction emoji */}
@@ -282,7 +318,7 @@ export default function MessageItem({ message }: MessageItemProps) {
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -337,9 +373,10 @@ function CodeBlock({ language, value }: { language: string; value: string }) {
         style={vscDarkPlus}
         customStyle={{
           margin: 0,
-          borderBottomLeftRadius: '8px',
-          borderBottomRightRadius: '8px',
+          borderBottomLeftRadius: '12px',
+          borderBottomRightRadius: '12px',
           fontSize: '0.85rem',
+          backgroundColor: '#0a0a0c',
         }}
         codeTagProps={{
           style: {

@@ -5,6 +5,7 @@ import { supabase, GUEST_USER_ID } from '@/lib/supabase';
 import { Attachment } from '@/types';
 import { useChatStore } from '@/store/useChatStore';
 import { useUIStore } from '@/store/useUIStore';
+import { generateUUID } from '@/utils/uuid';
 
 export default function useUpload() {
   const [isUploading, setIsUploading] = useState(false);
@@ -140,7 +141,7 @@ export default function useUpload() {
       } else {
         // Fallback local mock attachment if chat hasn't been created yet
         dbAttachment = {
-          id: Math.random().toString(36).substring(2, 9),
+          id: generateUUID(),
           chat_id: 'temp',
           file_path: publicUrl,
           file_name: file.name,
@@ -158,7 +159,7 @@ export default function useUpload() {
       // Fallback: Create Object URL so it works offline
       const localUrl = URL.createObjectURL(uploadBlob);
       const offlineAttachment: Attachment = {
-        id: Math.random().toString(36).substring(2, 9),
+        id: generateUUID(),
         chat_id: activeChatId || 'temp',
         file_path: localUrl,
         file_name: file.name,

@@ -62,8 +62,9 @@ export default function ChatArea() {
   };
 
   const getModelLabel = () => {
-    if (model === 'grok-beta') return 'Grok Beta';
-    return 'Grok 2';
+    if (model === 'llama-3.1-8b-instant') return 'Llama 3.1 8B';
+    if (model === 'llama-3.2-11b-vision-preview') return 'Llama 3.2 Vision';
+    return 'Llama 3.3 70B';
   };
 
   return (
@@ -95,18 +96,25 @@ export default function ChatArea() {
               {modelMenuOpen && (
                 <div className={styles.dropdownMenu}>
                   <button 
-                    className={`${styles.dropdownItem} ${model === 'grok-2-1212' ? styles.dropdownItemActive : ''}`}
-                    onClick={() => setModel('grok-2-1212')}
+                    className={`${styles.dropdownItem} ${model === 'llama-3.3-70b-versatile' ? styles.dropdownItemActive : ''}`}
+                    onClick={() => setModel('llama-3.3-70b-versatile')}
                   >
-                    <span className={styles.modelHeadline}>Grok 2</span>
-                    <span className={styles.modelDesc}>Latest stable text and vision capability.</span>
+                    <span className={styles.modelHeadline}>Llama 3.3 70B</span>
+                    <span className={styles.modelDesc}>Powerful model for complex reasoning and coding.</span>
                   </button>
                   <button 
-                    className={`${styles.dropdownItem} ${model === 'grok-beta' ? styles.dropdownItemActive : ''}`}
-                    onClick={() => setModel('grok-beta')}
+                    className={`${styles.dropdownItem} ${model === 'llama-3.1-8b-instant' ? styles.dropdownItemActive : ''}`}
+                    onClick={() => setModel('llama-3.1-8b-instant')}
                   >
-                    <span className={styles.modelHeadline}>Grok Beta</span>
-                    <span className={styles.modelDesc}>Fast-paced completion engine.</span>
+                    <span className={styles.modelHeadline}>Llama 3.1 8B</span>
+                    <span className={styles.modelDesc}>Ultra-low latency instant completions.</span>
+                  </button>
+                  <button 
+                    className={`${styles.dropdownItem} ${model === 'llama-3.2-11b-vision-preview' ? styles.dropdownItemActive : ''}`}
+                    onClick={() => setModel('llama-3.2-11b-vision-preview')}
+                  >
+                    <span className={styles.modelHeadline}>Llama 3.2 Vision</span>
+                    <span className={styles.modelDesc}>Analyze images alongside text prompts.</span>
                   </button>
                 </div>
               )}
